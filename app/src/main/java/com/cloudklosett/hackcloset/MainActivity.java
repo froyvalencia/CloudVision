@@ -15,7 +15,7 @@
  */
 
 
-package com.google.sample.cloudvision;
+package com.cloudklosett.hackcloset;
 
 import android.Manifest;
 import android.content.DialogInterface;
