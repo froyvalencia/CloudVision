@@ -34,10 +34,6 @@ public class GarmentEditor extends AppCompatActivity {
     }
 
     public void save(View view) {
-         try {
-             state.saveAll(this);
-         } catch (Exception e) {
-             Log.e("Save Error", Log.getStackTraceString(e), e);
-         }
+         state.saveAll(this);
     }
 }
