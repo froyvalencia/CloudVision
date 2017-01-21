@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mImageDetails;
     private ImageView mMainImage;
+    private Bitmap userImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,9 +170,10 @@ public class MainActivity extends AppCompatActivity {
         if (uri != null) {
             try {
                 // scale the image to save on bandwidth
+                userImage = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 Bitmap bitmap =
                         scaleBitmapDown(
-                                MediaStore.Images.Media.getBitmap(getContentResolver(), uri),
+                                userImage,
                                 1200);
 
                 callCloudVision(bitmap);
@@ -268,10 +270,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     //end of addition
 
-
+                    Garment newGarment = addGarment(response);
                     String types = convertResponseToString(response);
                     Log.d("TYPES DEBUG", types);
-                    return types;
+                    return newGarment.getId();
                 } catch (GoogleJsonResponseException e) {
                     Log.d(TAG, "failed to make API request because " + e.getContent());
                 } catch (IOException e) {
@@ -282,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             protected void onPostExecute(String result) {
-                mImageDetails.setText(result);
+                openArticleEditor(result);
             }
         }.execute();
     }
@@ -342,5 +344,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return ret;
+    }
+
+
+    /*
+        Added by William Ritson
+        Starts the GarmentEditor activity and passes it the relevant data
+    */
+    public final static String GARMENT_ID_MESSAGE = "com.cloudklosett.GARMENT_ID_MESSAGE";
+
+    private Garment addGarment(BatchAnnotateImagesResponse response) {
+        List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
+        Garment garment = new Garment(labels);
+        AppState.getInstance().addGarment(garment, userImage);
+        return garment;
+    }
+
+    private void openArticleEditor(String garmentId) {
+        Intent intent = new Intent(this, GarmentEditor.class);
+        intent.putExtra(GARMENT_ID_MESSAGE, garmentId);
+        startActivity(intent);
     }
 }
