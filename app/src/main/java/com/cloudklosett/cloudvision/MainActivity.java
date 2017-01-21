@@ -15,7 +15,7 @@
  */
 
 
-package com.cloudklosett.hackcloset;
+package com.cloudklosett.cloudvision;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -35,6 +35,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+//
+import android.app.Activity;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.view.Menu;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -52,15 +57,25 @@ import com.google.api.services.vision.v1.model.Feature;
 import com.google.api.services.vision.v1.model.Image;
 //import com.google.api.services.vision.v1.model.SafeSearchAnnotation;
 
+
+/* added for openCV */
+import org.opencv.android.OpenCVLoader;
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.core.Mat;
+import org.opencv.android.Utils;
+import org.opencv.imgproc.Imgproc;
+import android.os.Bundle;
+import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity {
 
+    static{System.loadLibrary("opencv_java3"); }
     private static final String CLOUD_VISION_API_KEY = "AIzaSyBAliqPapTruckNSk_nRdIDi5vadf_NqvM";
     public static final String FILE_NAME = "temp.jpg";
     private static final String ANDROID_CERT_HEADER = "X-Android-Cert";
@@ -74,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mImageDetails;
     private ImageView mMainImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         mImageDetails = (TextView) findViewById(R.id.image_details);
         mMainImage = (ImageView) findViewById(R.id.main_image);
+
     }
 
     public void startGalleryChooser() {
@@ -244,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                         // add the features we want
                         annotateImageRequest.setFeatures(new ArrayList<Feature>() {{
                             Feature labelDetection = new Feature();
-                            labelDetection.setType("LABEL_DETECTION");
+                            labelDetection.setType("LABEL_DETECTION");//("LOGO_DETECTION");//
                             labelDetection.setMaxResults(10);
                             add(labelDetection);
                         }});

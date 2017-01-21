@@ -1,4 +1,4 @@
-package com.cloudklosett.hackcloset;
+package com.cloudklosett.cloudvision;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;

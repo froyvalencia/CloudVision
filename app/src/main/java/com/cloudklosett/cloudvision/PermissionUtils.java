@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cloudklosett.hackcloset;
+package com.cloudklosett.cloudvision;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
