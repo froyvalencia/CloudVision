@@ -3,7 +3,6 @@ package com.cloudklosett.hackcloset;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,7 +21,7 @@ public class GarmentEditor extends AppCompatActivity {
         setContentView(R.layout.activity_garment_editor);
 
         Intent intent = getIntent();
-        String garmentId = intent.getStringExtra(MainActivity.GARMENT_ID_MESSAGE);
+        String garmentId = intent.getStringExtra(CameraActivity.GARMENT_ID_MESSAGE);
 
         garment = state.getGarment(garmentId);
 

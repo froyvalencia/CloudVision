@@ -20,7 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:weightSum="1">
 
             <EditText
                 android:layout_width="match_parent"
@@ -29,6 +30,12 @@
                 android:text="Name"
                 android:ems="10"
                 android:id="@+id/editText" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:layout_weight="0.45" />
 
             <ImageView
                 android:layout_width="match_parent"
