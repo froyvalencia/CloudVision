@@ -103,7 +103,20 @@ public class SchedulerActivity extends AppCompatActivity {
             String month = String.valueOf(cal.get(Calendar.MONTH) + 1);
             if(month.length() == 1){ month = '0' + month; }
             String year = String.valueOf(cal.get(Calendar.YEAR));
+
             CCEvents = contentResolver.getCalendar(month, year);
+            Intent i = getIntent();
+            String eventString = i.getStringExtra(NEW_EVENT_MESSAGE);
+            if(eventString != null){
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+                    CalendarContentResolver.EventField ev = contentResolver.addEvent(sdf.parse(AppState.getInstance().getEdittingDate()), eventString);
+                    if(ev != null) {CCEvents.put(ev.getTitle(), ev); }
+                    AppState.getInstance().setEdittingDate(null);
+                } catch (ParseException exc){
+                    exc.printStackTrace();
+                }
+            }
             blue = new ColorDrawable(ContextCompat.getColor(this, R.color.caldroid_sky_blue));
             for (String key : CCEvents.keySet()) {
                 CalendarContentResolver.EventField e = CCEvents.get(key);
@@ -114,6 +127,8 @@ public class SchedulerActivity extends AppCompatActivity {
 
                 caldroidFragment.setBackgroundDrawableForDate(blue, d);
             }
+
+            //i.getData();
             caldroidFragment.refreshView();
             Log.d("Calendar Info: ", CCEvents.toString());
         }
@@ -139,6 +154,7 @@ public class SchedulerActivity extends AppCompatActivity {
             }
             //TODO: add logic to launch empty closet
             Intent intent = new Intent(scheduler, CameraActivity.class);
+            Log.d("FORMATED_DATE", formatter.format(date));
             AppState.getInstance().setEdittingDate(formatter.format(date));
             startActivity(intent);
             //startActivityForResult(intent, AppState.);

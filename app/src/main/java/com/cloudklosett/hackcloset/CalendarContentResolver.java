@@ -152,8 +152,8 @@ public class CalendarContentResolver {
 
     public EventField addEvent(Date date, String garmentId) {
         //ContentResolver cr = getContentResolver();
-        String description = "Event added through caldroid!";
-        String eTitle = "Added Event";
+        String description = "garmentId";
+        String eTitle = "Cloud Klosett";
         ContentValues values = new ContentValues();
         values.put(CalendarContract.Events.DTSTART, date.getTime());
         values.put(CalendarContract.Events.DTEND, date.getTime() + 100);

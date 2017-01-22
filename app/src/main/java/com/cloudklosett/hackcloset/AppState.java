@@ -33,7 +33,7 @@ public class AppState implements Serializable {
 
     public String edittingDate;
 
-    public void setEdittingDate(String newGarmentEvent) {
+    public void setEdittingDate(String edittingDate) {
         this.edittingDate = edittingDate;
     }
 
