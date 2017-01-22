@@ -58,7 +58,14 @@ public class GarmentEditor extends AppCompatActivity {
         garment.setType( GarmentTypes.values()[typeSpinner.getSelectedItemPosition()]);
         state.saveImage(garment.getId(), this);
         state.saveAll(this);
-        Intent intent = new Intent(this, ClosetActivity.class);
-        startActivity(intent);
+
+        if (state.getEdittingDate() == null) {
+            Intent intent = new Intent(this, ClosetActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(this, SchedulerActivity.class);
+            intent.putExtra(SchedulerActivity.NEW_EVENT_MESSAGE, garment.getId());
+            startActivity(intent);
+        }
     }
 }

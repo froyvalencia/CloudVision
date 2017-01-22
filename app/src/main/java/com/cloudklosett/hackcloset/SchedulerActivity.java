@@ -53,6 +53,7 @@ public class SchedulerActivity extends AppCompatActivity {
     public final static int GARMENT_ID_REQUEST = 42;
     public final static int DATE = 43;
 
+    public static String NEW_EVENT_MESSAGE = "com.cloudklosset.new_calender_event";
     public static String PACKAGE_NAME;
     ColorDrawable blue;
 
@@ -138,7 +139,7 @@ public class SchedulerActivity extends AppCompatActivity {
             }
             //TODO: add logic to launch empty closet
             Intent intent = new Intent(scheduler, CameraActivity.class);
-            AppState.getInstance().EdittingDate = formatter.format(date);
+            AppState.getInstance().setEdittingDate(formatter.format(date));
             startActivity(intent);
             //startActivityForResult(intent, AppState.);
         }
@@ -178,8 +179,8 @@ public class SchedulerActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 String gId = cursor.getString(0);
                 try {
-                    caldroidFragment.setBackgroundDrawableForDate(blue, sdf.parse( AppState.getInstance().EdittingDate));
-                    CalendarContentResolver.EventField e = contentResolver.addEvent(sdf.parse( AppState.getInstance().EdittingDate), gId);
+                    caldroidFragment.setBackgroundDrawableForDate(blue, sdf.parse( AppState.getInstance().getEdittingDate()));
+                    CalendarContentResolver.EventField e = contentResolver.addEvent(sdf.parse( AppState.getInstance().getEdittingDate()), gId);
                     if(e != null){ CCEvents.put(e.getTitle(), e); }
                 } catch (ParseException exc){
                     exc.printStackTrace();

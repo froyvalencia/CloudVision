@@ -31,7 +31,15 @@ public class AppState implements Serializable {
     public final static String OUTFIT_EDITOR_MESSAGE = "com.cloudklosett.outfit.id";
     public final static String GARMENT_ID_MESSAGE = "com.cloudklosett.GARMENT_ID_MESSAGE";
 
-    public String EdittingDate;
+    public String edittingDate;
+
+    public void setEdittingDate(String newGarmentEvent) {
+        this.edittingDate = edittingDate;
+    }
+
+    public String getEdittingDate() {
+        return this.edittingDate;
+    }
 
     private String newGarmentEvent;
 
@@ -62,6 +70,7 @@ public class AppState implements Serializable {
         outfits = new HashMap<String, Outfit>();
         images = new HashMap<String, Bitmap>();
         newGarmentEvent = null;
+        edittingDate = null;
     }
 
     public void saveAll(Context context)  {
