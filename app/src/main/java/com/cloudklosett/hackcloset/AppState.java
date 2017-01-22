@@ -16,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -26,6 +27,8 @@ public class AppState implements Serializable {
     public final  String GARMENT_SAVE_LOC = "com.cloudklosett.garments";
     public final  String IMAGE_PREIX = "com.cloudklosett.image.";
     public final  String IMAGE_KEY_LOC = "com.cloudklosett.image.keys";
+
+    public String EdittingDate;
 
     private static AppState ourInstance = new AppState();
 

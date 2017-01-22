@@ -7,11 +7,13 @@ package com.cloudklosett.hackcloset;
 public enum GarmentTypes {
     UNCLASSIFIED("Unclassified"),
     SHIRT("Shirt"),
+    DRESS("Dress"),
+    SKIRT("Skirt"),
     PANTS("Pants"),
     JACKET("Jacket"),
     COAT("Coat"),
     SHORTS("Shorts"),
-    SWETTER("Swetter"),
+    SWEATER("Sweater"),
     UNDERWEAR("Underwear"),
     SOCKS("Socks");
 

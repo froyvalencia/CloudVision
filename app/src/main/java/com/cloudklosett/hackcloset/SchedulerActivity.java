@@ -1,8 +1,10 @@
 package com.cloudklosett.hackcloset;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -27,6 +29,7 @@ import com.roomorama.caldroid.CaldroidListener;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,9 +47,14 @@ public class SchedulerActivity extends AppCompatActivity {
     Hashtable<String, CalendarContentResolver.EventField> CCEvents;
     public static final int MY_PERMISSIONS_REQUEST_READ_CALENDAR = 12;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_CALENDAR = 13;
+    public final static String GARMENT_ID_MESSAGE = "com.cloudklosett.GARMENT_ID_MESSAGE";
+    public final static int GARMENT_ID_REQUEST = 42;
+    public final static int DATE = 43;
 
     public static String PACKAGE_NAME;
     ColorDrawable blue;
+
+    Activity scheduler = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,14 +128,17 @@ public class SchedulerActivity extends AppCompatActivity {
                 if (CCEvents.get(key).getDay().compareTo(formatter.format(date).substring(0, 2)) == 0) {
                     Toast.makeText(getApplicationContext(), CCEvents.get(key).getDescription(), Toast.LENGTH_LONG).show();
                     //TODO: add logic to launch the closet to view outfit
+                    Intent i = new Intent(scheduler, GarmentEditor.class);
+                    i.putExtra(GARMENT_ID_MESSAGE, CCEvents.get(key).getGarmentId());
+                    startActivity(i);
                     return;
                 }
             }
             //TODO: add logic to launch empty closet
-            CalendarContentResolver.EventField e = contentResolver.addEvent(date);
-            if(e != null){ CCEvents.put(e.getTitle(), e); }
-            caldroidFragment.setBackgroundDrawableForDate(blue, date);
-            caldroidFragment.refreshView();
+            Intent i = new Intent(scheduler, GarmentEditor.class);
+            AppState.getInstance().EdittingDate = formatter.format(date);
+            //i.putExtra("Date", formatter.format(date));
+            startActivityForResult(i, GARMENT_ID_REQUEST);
         }
 
         @Override
@@ -151,5 +162,29 @@ public class SchedulerActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Check which request we're responding to
+        if (requestCode == GARMENT_ID_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+                Uri garmentInfo = data.getData();
+                Cursor cursor = getContentResolver().query(garmentInfo, null, null, null, null);
+                cursor.moveToFirst();
+                String gId = cursor.getString(0);
+                try {
+                    caldroidFragment.setBackgroundDrawableForDate(blue, sdf.parse( AppState.getInstance().EdittingDate));
+                    CalendarContentResolver.EventField e = contentResolver.addEvent(sdf.parse( AppState.getInstance().EdittingDate), gId);
+                    if(e != null){ CCEvents.put(e.getTitle(), e); }
+                } catch (ParseException exc){
+                    exc.printStackTrace();
+                }
+                caldroidFragment.refreshView();
+            }
+        }
+    }
 
 }

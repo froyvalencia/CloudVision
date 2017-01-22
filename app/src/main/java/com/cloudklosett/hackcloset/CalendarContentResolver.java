@@ -39,10 +39,17 @@ public class CalendarContentResolver {
             _end = end;
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss z");
             sdf.setTimeZone(TimeZone.getDefault());
+            if(start == null) { start = end; }
             _start = sdf.format(new Date(Long.parseLong(start)));
+            if(end == null) { end = start; }
             _end = sdf.format(new Date(Long.parseLong(end)));
             _title = title;
         }
+        public String getGarmentId(){
+            String ret = _desc;
+            return ret;
+        }
+
         public String getId(){
             String ret = _id;
             return ret;
@@ -114,8 +121,9 @@ public class CalendarContentResolver {
     public Hashtable<String, EventField> getCalendar(String month, String year) {
         userName = getUsername();
         Cursor cursor = contentResolver.query(CALENDAR_URI, FIELDS,
-                CalendarContract.Events.ORGANIZER + " = ?",
-                new String[]{userName},
+                "((" + CalendarContract.Events.ORGANIZER + " = ?) AND (" +
+                CalendarContract.Events.TITLE + " = ?))",
+                new String[]{userName, "Cloud Klosett"},
                 null);
 
         try {
@@ -142,7 +150,7 @@ public class CalendarContentResolver {
         return events;
     }
 
-    public EventField addEvent(Date date) {
+    public EventField addEvent(Date date, String garmentId) {
         //ContentResolver cr = getContentResolver();
         String description = "Event added through caldroid!";
         String eTitle = "Added Event";
