@@ -132,25 +132,11 @@ public class CameraActivity extends AppCompatActivity {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA)) {
 
-            //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-/*
-            cameraUri = FileProvider.getUriForFile(CameraActivity.this,
-                    BuildConfig.APPLICATION_ID + ".provider",
-                    getCameraFile());
-
-            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-            Log.d("PURI", cameraUri.toString());
-
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
-            startActivityForResult(intent, CAMERA_IMAGE_REQUEST);
-            */
             dispatchTakePictureIntent();
         }
     }
 
-    static final int REQUEST_TAKE_PHOTO = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 3;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -169,7 +155,7 @@ public class CameraActivity extends AppCompatActivity {
                         "com.cloudklosett.hackcloset.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
     }
@@ -204,11 +190,19 @@ public class CameraActivity extends AppCompatActivity {
         Log.d("OAR", requestCode + " " + resultCode  + " = " + RESULT_OK + " " + data.getData());
 
 
+        if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            uploadImage(data.getData());
+        } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            uploadImage(cameraUri);
+        }
+
+        /*
         if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK) {
             uploadImage(cameraUri);
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
             uploadImage(Uri.fromFile(getCameraFile()));
         }
+        */
     }
 
     @Override
