@@ -18,6 +18,7 @@ public class Garment implements Serializable {
     private String name;
     private UUID id;
     private ArrayList<String> tags;
+    private GarmentTypes type;
 
 
     public String getName() {

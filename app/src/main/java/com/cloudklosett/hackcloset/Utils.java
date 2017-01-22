@@ -45,8 +45,9 @@ public class Utils {
         InputStream is=null;
         try {
             AssetManager manager = context.getAssets();
-            Log.d(TAG,"path "+jsonFileName);
+            Log.d(TAG, "path "+jsonFileName + ":" + context);
             is = manager.open(jsonFileName);
+
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
