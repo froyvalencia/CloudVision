@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class Garment implements Serializable {
     final  static String[] decorators = {"Amazing", "Extraordinary", "Super", "Neat", "Cool", "Fun", "Classy", "Fabulous", "Stylish"};
-    final  static String[] descriptors = {"leather", "denim", "blue", "red", "green", "gray", "black", "white", "yellow"};
+    final  static String[] descriptors = {"blue", "red", "green", "gray", "black", "white", "yellow"};
     Random r = new Random();
 
     private String name;

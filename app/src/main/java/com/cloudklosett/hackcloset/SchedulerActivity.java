@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+import com.google.api.services.vision.v1.model.EntityAnnotation;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
@@ -31,6 +32,7 @@ import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -135,10 +137,10 @@ public class SchedulerActivity extends AppCompatActivity {
                 }
             }
             //TODO: add logic to launch empty closet
-            Intent i = new Intent(scheduler, GarmentEditor.class);
+            Intent intent = new Intent(scheduler, CameraActivity.class);
             AppState.getInstance().EdittingDate = formatter.format(date);
-            //i.putExtra("Date", formatter.format(date));
-            startActivityForResult(i, GARMENT_ID_REQUEST);
+            startActivity(intent);
+            //startActivityForResult(intent, AppState.);
         }
 
         @Override

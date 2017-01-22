@@ -38,24 +38,15 @@ public class ClosetActivity extends AppCompatActivity {
         for(Garment garment: state.getAllGarments() ){
             mSwipeView.addView(new ClothesCard(mContext, garment, mSwipeView));
         }
-
-        findViewById(R.id.rejectBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSwipeView.doSwipe(false);
-            }
-        });
-
-        findViewById(R.id.acceptBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mSwipeView.doSwipe(true);
-            }
-        });
     }
 
     public void enterCameraMode(View view) {
         Intent intent = new Intent(this, CameraActivity.class);
+        startActivity(intent);
+    }
+
+    public void viewScheduler(View view) {
+        Intent intent = new Intent(this, SchedulerActivity.class);
         startActivity(intent);
     }
 }

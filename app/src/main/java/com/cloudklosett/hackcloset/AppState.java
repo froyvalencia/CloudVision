@@ -33,6 +33,20 @@ public class AppState implements Serializable {
 
     public String EdittingDate;
 
+    private String newGarmentEvent;
+
+    public void setNewGarmentEvent(String newGarmentEvent) {
+        this.newGarmentEvent = newGarmentEvent;
+    }
+
+    public String getNewGarmentEvent() {
+        if (this.newGarmentEvent == null)
+            return null;
+        String value = this.newGarmentEvent;
+        this.newGarmentEvent = null;
+        return value;
+    }
+
     private static AppState ourInstance = new AppState();
 
     public static AppState getInstance() {
@@ -47,6 +61,7 @@ public class AppState implements Serializable {
         garments = new HashMap<String, Garment>();
         outfits = new HashMap<String, Outfit>();
         images = new HashMap<String, Bitmap>();
+        newGarmentEvent = null;
     }
 
     public void saveAll(Context context)  {

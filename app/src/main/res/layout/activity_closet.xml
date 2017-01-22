@@ -7,33 +7,28 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layoutDirection="rtl"
-        android:gravity="center"
-        app:srcCompat="@android:drawable/ic_menu_add"
-        android:onClick="enterCameraMode"
-        android:id="@+id/addImage" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_gravity="bottom"
         android:gravity="center"
         android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/rejectBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_cancel"/>
-        <ImageButton
-            android:id="@+id/acceptBtn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:background="@drawable/ic_heart"/>
+
+        <Button
+            android:text="Scheduler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="viewScheduler"
+            android:id="@+id/Scheduler"
+            android:layout_weight="1" />
+
+        <Button
+            android:text="New Garment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="enterCameraMode"
+            android:id="@+id/addImage"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
