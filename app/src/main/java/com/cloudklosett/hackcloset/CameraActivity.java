@@ -187,22 +187,11 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d("OAR", requestCode + " " + resultCode  + " = " + RESULT_OK + " " + data.getData());
-
-
         if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             uploadImage(data.getData());
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
             uploadImage(cameraUri);
         }
-
-        /*
-        if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK) {
-            uploadImage(cameraUri);
-        } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
-            uploadImage(Uri.fromFile(getCameraFile()));
-        }
-        */
     }
 
     @Override
@@ -408,7 +397,7 @@ public class CameraActivity extends AppCompatActivity {
         Added by William Ritson
         Starts the GarmentEditor activity and passes it the relevant data
     */
-    public final static String GARMENT_ID_MESSAGE = "com.cloudklosett.GARMENT_ID_MESSAGE";
+
 
     private Garment addGarment(BatchAnnotateImagesResponse response) {
         List<EntityAnnotation> labels = response.getResponses().get(0).getLabelAnnotations();
@@ -419,7 +408,7 @@ public class CameraActivity extends AppCompatActivity {
 
     private void openArticleEditor(String garmentId) {
         Intent intent = new Intent(this, GarmentEditor.class);
-        intent.putExtra(GARMENT_ID_MESSAGE, garmentId);
+        intent.putExtra(AppState.GARMENT_ID_MESSAGE, garmentId);
         startActivity(intent);
     }
 }

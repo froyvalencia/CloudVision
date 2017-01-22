@@ -77,6 +77,9 @@ public class Garment implements Serializable {
             name = decorator + " mystery object";
         }
 
+        Log.d("Name final", name);
+
+
 
     }
 }

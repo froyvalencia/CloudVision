@@ -28,6 +28,7 @@ public class AppState implements Serializable {
     public final  String IMAGE_PREIX = "com.cloudklosett.image.";
 
     public final static String OUTFIT_EDITOR_MESSAGE = "com.cloudklosett.outfit.id";
+    public final static String GARMENT_ID_MESSAGE = "com.cloudklosett.GARMENT_ID_MESSAGE";
 
     private static AppState ourInstance = new AppState();
 

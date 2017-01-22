@@ -24,7 +24,7 @@ public class GarmentEditor extends AppCompatActivity {
         setContentView(R.layout.activity_garment_editor);
 
         Intent intent = getIntent();
-        String garmentId = intent.getStringExtra(CameraActivity.GARMENT_ID_MESSAGE);
+        String garmentId = intent.getStringExtra(AppState.GARMENT_ID_MESSAGE);
 
         garment = state.getGarment(garmentId);
 
