@@ -16,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
@@ -29,6 +30,8 @@ public class AppState implements Serializable {
 
     public final static String OUTFIT_EDITOR_MESSAGE = "com.cloudklosett.outfit.id";
     public final static String GARMENT_ID_MESSAGE = "com.cloudklosett.GARMENT_ID_MESSAGE";
+
+    public String EdittingDate;
 
     private static AppState ourInstance = new AppState();
 

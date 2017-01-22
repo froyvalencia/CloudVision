@@ -1,17 +1,11 @@
 package com.cloudklosett.hackcloset;
 
-import android.*;
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -30,7 +24,7 @@ public class DrawerActivity extends AppCompatActivity {
     private DrawerLayout mDrawer;
     private Toolbar mToolbar;
     private PlaceHolderView mGalleryView;
-    String email;
+    String email = "";
     String name = "";
 
     @Override
@@ -38,36 +32,34 @@ public class DrawerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
 
-        mDrawer = (DrawerLayout)findViewById(R.id.drawerLayout);
-        mDrawerView = (PlaceHolderView)findViewById(R.id.drawerView);
-        mToolbar = (Toolbar)findViewById(R.id.toolbar);
-        mGalleryView = (PlaceHolderView)findViewById(R.id.galleryView);
-        email = getUserEmail(this);
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.READ_CONTACTS},
-                    42);
-        }
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-            String[] fields = {
-                    ContactsContract.Profile.DISPLAY_NAME
-            };
-            ContentResolver cr = this.getContentResolver();
-            Cursor cursor = cr.query(ContactsContract.Profile.CONTENT_URI, fields,
-                    null,
-                    null,
-                    null);
-            if (cursor.getCount() > 0) {
-                cursor.moveToNext();
-                name = cursor.getString(0);
-            }
-        }
+        mDrawer = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerView = (PlaceHolderView) findViewById(R.id.drawerView);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mGalleryView = (PlaceHolderView) findViewById(R.id.galleryView);
+        //String[] fields = {
+        //        ContactsContract.Profile.DISPLAY_NAME
+        //};
+        //ContentResolver cr = this.getContentResolver();
+        //Cursor cursor = cr.query(ContactsContract.Profile.CONTENT_URI, fields,
+        //        null,
+        //        null,
+        //        null);
+        //if (cursor.getCount() > 0) {
+        //    cursor.moveToNext();
+        //    name = cursor.getString(0);
+        //    String a = cursor.getString(1);
+        //    String b = cursor.getString(2);
+        //    String c = cursor.getString(3);
+        //    String d = cursor.getString(4);
+        //}
+        //email = getUserEmail(this);
         setupDrawer();
     }
 
-
+    private void goToSchedule() {
+        Intent i = new Intent(getApplicationContext(), SchedulerActivity.class);
+        startActivity(i);
+    }
 
     private void setupDrawer(){
         mDrawerView
@@ -75,11 +67,7 @@ public class DrawerActivity extends AppCompatActivity {
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_PROFILE))
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_REQUESTS))
                 .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_MESSAGE))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_GROUPS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_NOTIFICATIONS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_TERMS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_SETTINGS))
-                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_LOGOUT));
+                .addView(new DrawerMenuItem(this.getApplicationContext(), DrawerMenuItem.DRAWER_MENU_ITEM_GROUPS));
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.open_drawer, R.string.close_drawer){
             @Override
