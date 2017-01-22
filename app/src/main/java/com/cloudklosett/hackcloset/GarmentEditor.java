@@ -40,6 +40,9 @@ public class GarmentEditor extends AppCompatActivity {
     }
 
     public void save(View view) {
+        garment.setName(nameEditor.getText().toString());
+        garment.setType( GarmentTypes.values()[typeSpinner.getSelectedItemPosition()]);
+        state.saveImage(garment.getId(), this);
         state.saveAll(this);
         Intent intent = new Intent(this, ClosetActivity.class);
         startActivity(intent);

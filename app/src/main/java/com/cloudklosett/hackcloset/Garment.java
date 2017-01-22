@@ -20,6 +20,14 @@ public class Garment implements Serializable {
     private ArrayList<String> tags;
     private GarmentTypes type;
 
+    public  void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType (GarmentTypes type) {
+        this.type = type;
+    }
+
 
     public String getName() {
         return name;

@@ -24,8 +24,10 @@ import java.util.logging.Logger;
  */
 public class AppState implements Serializable {
     public final  String GARMENT_SAVE_LOC = "com.cloudklosett.garments";
+    public final  String OUTFIT_SAVE_LOC = "com.cloudklosett.image.keys";
     public final  String IMAGE_PREIX = "com.cloudklosett.image.";
-    public final  String IMAGE_KEY_LOC = "com.cloudklosett.image.keys";
+
+    public final static String OUTFIT_EDITOR_MESSAGE = "com.cloudklosett.outfit.id";
 
     private static AppState ourInstance = new AppState();
 
@@ -36,7 +38,6 @@ public class AppState implements Serializable {
     private HashMap<String, Garment> garments;
     public HashMap<String, Outfit> outfits;
     private HashMap<String, Bitmap> images;
-    private  ArrayList<String> imageKeys;
 
     private AppState() {
         garments = new HashMap<String, Garment>();
@@ -45,26 +46,18 @@ public class AppState implements Serializable {
     }
 
     public void saveAll(Context context)  {
-
-        Log.d("SAVING", "Start save all");
-
         File dir = context.getFilesDir();
 
         long startTime = System.nanoTime();
         try {
             saveToFile( new File(dir, GARMENT_SAVE_LOC), garments);
-            saveToFile(new File(dir, IMAGE_KEY_LOC), imageKeys);
+            saveToFile( new File(dir, OUTFIT_SAVE_LOC), outfits);
+
         } catch (Exception e) {
             Log.e("Save Error", Log.getStackTraceString(e), e);
         }
 
-        long d1 = (System.nanoTime() - startTime) / 1000000;
         startTime = System.nanoTime();
-        saveImages(context);
-
-        long d2 = (System.nanoTime() - startTime) / 1000000;
-
-        Log.d("SAVED", "save done in " + d1 + ", " + d2 + " ms");
     }
 
     private void saveImages(Context context) {
@@ -73,7 +66,7 @@ public class AppState implements Serializable {
         }
     }
 
-    private void saveImage(String key, Context context) {
+    public void saveImage(String key, Context context) {
         FileOutputStream out = null;
         try {
             out =  context.openFileOutput(IMAGE_PREIX + key, context.MODE_PRIVATE);
@@ -103,13 +96,12 @@ public class AppState implements Serializable {
         File dir = context.getFilesDir();
         try {
             garments = (HashMap<String, Garment>) loadFromFile( new File(dir, GARMENT_SAVE_LOC));
-            imageKeys = (ArrayList<String>) loadFromFile(new File(dir, IMAGE_KEY_LOC));
-            imageKeys = imageKeys != null ? imageKeys : new ArrayList<String >();
 
             for (Garment garment: getAllGarments()) {
                 loadImage(garment.getId(), context);
             }
 
+            outfits = (HashMap<String, Outfit>) loadFromFile( new File(dir, OUTFIT_SAVE_LOC));
         } catch ( Exception e ) {
             Log.e("Load Error", Log.getStackTraceString(e), e);
         }
@@ -147,6 +139,13 @@ public class AppState implements Serializable {
         return garments.get(id);
     }
 
+    public  Outfit getOutfit(String id) {
+        if (outfits.containsKey(id)) {
+            return  outfits.get(id);
+        }
+        return new Outfit();
+    }
+
     public void addGarment(Garment garment, Bitmap image) {
         garments.put(garment.getId(), garment);
         images.put(garment.getId(),image);
@@ -157,3 +156,5 @@ public class AppState implements Serializable {
     }
 
 }
+
+
