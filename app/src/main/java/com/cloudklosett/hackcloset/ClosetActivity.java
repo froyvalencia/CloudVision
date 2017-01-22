@@ -1,6 +1,7 @@
 package com.cloudklosett.hackcloset;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ public class ClosetActivity extends AppCompatActivity {
 
     private SwipePlaceHolderView mSwipeView;
     private Context mContext;
+    private final AppState state = AppState.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,12 @@ public class ClosetActivity extends AppCompatActivity {
         //.setSwipeInMsgLayoutId(R.layout.tinder_swipe_in_msg_view)
         //.setSwipeOutMsgLayoutId(R.layout.tinder_swipe_out_msg_view));
 
+        state.listFiles(this);
+        state.loadAll(this);
 
-        for(Profile profile : Utils.loadProfiles(this.getApplicationContext())){
-            mSwipeView.addView(new ClothesCard(mContext, profile, mSwipeView));
+
+        for(Garment garment: state.getAllGarments() ){
+            mSwipeView.addView(new ClothesCard(mContext, garment, mSwipeView));
         }
 
         findViewById(R.id.rejectBtn).setOnClickListener(new View.OnClickListener() {
@@ -47,5 +52,10 @@ public class ClosetActivity extends AppCompatActivity {
                 mSwipeView.doSwipe(true);
             }
         });
+    }
+
+    public void enterCameraMode(View view) {
+        Intent intent = new Intent(this, CameraActivity.class);
+        startActivity(intent);
     }
 }

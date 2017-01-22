@@ -40,6 +40,8 @@ public class GarmentEditor extends AppCompatActivity {
     }
 
     public void save(View view) {
-         state.saveAll(this);
+        state.saveAll(this);
+        Intent intent = new Intent(this, ClosetActivity.class);
+        startActivity(intent);
     }
 }

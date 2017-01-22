@@ -3,6 +3,7 @@ package com.cloudklosett.hackcloset;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.File;
@@ -16,6 +17,7 @@ import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 /**
  * Created by William on 1/21/2017.
@@ -102,9 +104,10 @@ public class AppState implements Serializable {
         try {
             garments = (HashMap<String, Garment>) loadFromFile( new File(dir, GARMENT_SAVE_LOC));
             imageKeys = (ArrayList<String>) loadFromFile(new File(dir, IMAGE_KEY_LOC));
+            imageKeys = imageKeys != null ? imageKeys : new ArrayList<String >();
 
-            for (String key: imageKeys) {
-                loadImage(key, context);
+            for (Garment garment: getAllGarments()) {
+                loadImage(garment.getId(), context);
             }
 
         } catch ( Exception e ) {
@@ -121,27 +124,23 @@ public class AppState implements Serializable {
         return obj;
     }
 
-
-
     private void loadImage(String key, Context context) {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-
-        FileInputStream in = null
-        ;
+        File imgFile = new File( context.getFilesDir(), IMAGE_PREIX + key);
         try {
-            in =  context.openFileInput(IMAGE_PREIX + key);
-            images.put(key, BitmapFactory.decodeFile(IMAGE_PREIX + key, bmOptions));
+            images.put(key, BitmapFactory.decodeFile( imgFile.getAbsolutePath(), bmOptions));
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+    }
+
+    public  void listFiles(Context c) {
+        File dir  = c.getFilesDir();
+        Log.d("FILES: ", TextUtils.join(", ", dir.list()));
+    }
+
+    public ArrayList<Garment> getAllGarments() {
+        return new ArrayList<Garment>(garments.values());
     }
 
     public Garment getGarment(String id) {
