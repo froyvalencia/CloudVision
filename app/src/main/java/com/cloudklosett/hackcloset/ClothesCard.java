@@ -31,21 +31,23 @@ public class ClothesCard {
     @View(R.id.locationNameTxt)
     private TextView locationNameTxt;
 
-    private Profile mProfile;
+    private AppState state = AppState.getInstance();
+
+    private Garment garment;
     private Context mContext;
     private SwipePlaceHolderView mSwipeView;
 
-    public ClothesCard(Context context, Profile profile, SwipePlaceHolderView swipeView) {
+    public ClothesCard(Context context, Garment garment, SwipePlaceHolderView swipeView) {
         mContext = context;
-        mProfile = profile;
+        this.garment = garment;
         mSwipeView = swipeView;
     }
 
     @Resolve
     private void onResolved(){
-        Glide.with(mContext).load(mProfile.getImageUrl()).into(profileImageView);
-        nameAgeTxt.setText(mProfile.getName() + ", " + mProfile.getAge());
-        locationNameTxt.setText(mProfile.getLocation());
+        profileImageView.setImageBitmap(state.getImage(garment));
+        nameAgeTxt.setText(garment.getName());
+        locationNameTxt.setText("");
     }
 
     @SwipeOut
