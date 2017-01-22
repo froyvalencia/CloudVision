@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -55,7 +56,9 @@ import com.google.api.services.vision.v1.model.Image;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -75,6 +78,8 @@ public class CameraActivity extends AppCompatActivity {
     private TextView mImageDetails;
     private ImageView mMainImage;
     private Bitmap userImage;
+
+    private Uri cameraUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,9 +131,46 @@ public class CameraActivity extends AppCompatActivity {
                 CAMERA_PERMISSIONS_REQUEST,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA)) {
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getCameraFile()));
+
+            //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+/*
+            cameraUri = FileProvider.getUriForFile(CameraActivity.this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    getCameraFile());
+
+            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Log.d("PURI", cameraUri.toString());
+
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
             startActivityForResult(intent, CAMERA_IMAGE_REQUEST);
+            */
+            dispatchTakePictureIntent();
+        }
+    }
+
+    static final int REQUEST_TAKE_PHOTO = 1;
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (Exception e) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                cameraUri = FileProvider.getUriForFile(this,
+                        "com.cloudklosett.hackcloset.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+            }
         }
     }
 
@@ -137,12 +179,33 @@ public class CameraActivity extends AppCompatActivity {
         return new File(dir, FILE_NAME);
     }
 
+    String mCurrentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        mCurrentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            uploadImage(data.getData());
+        Log.d("OAR", requestCode + " " + resultCode  + " = " + RESULT_OK + " " + data.getData());
+
+
+        if (requestCode == GALLERY_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            uploadImage(cameraUri);
         } else if (requestCode == CAMERA_IMAGE_REQUEST && resultCode == RESULT_OK) {
             uploadImage(Uri.fromFile(getCameraFile()));
         }

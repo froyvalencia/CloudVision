@@ -36,7 +36,21 @@ public class GarmentEditor extends AppCompatActivity {
 
         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
         typeSpinner.setAdapter(new ArrayAdapter<GarmentTypes>(this, android.R.layout.simple_spinner_item, GarmentTypes.values()));
+        typeSpinner.setSelection(getIndex(typeSpinner, garment.getType().toString()));
 
+    }
+
+    private int getIndex(Spinner spinner, String myString)
+    {
+        int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     public void save(View view) {
