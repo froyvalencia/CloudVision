@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "943127148362",
+    "firebase_url": "https://theclosetapp.firebaseio.com",
+    "project_id": "theclosetapp",
+    "storage_bucket": "theclosetapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943127148362:android:3ff84a1f3d5a4dcf",
+        "android_client_ino": {
+          "package_name": "com.cloudklosett.hackcloset"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "943127148362-vn5on203rjr2dq18fft6gpg2pmdifuf6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByC7h7D9jJQuGpAmoEHlmgnKGDRk9U5Pg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
