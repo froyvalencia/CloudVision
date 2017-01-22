@@ -29,7 +29,13 @@
                 android:text="Use the floating action button to select an image."/>
 
             <ImageView
-                android:id="@+id/main_image"
+            android:id="@+id/main_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="fitCenter"/>
+
+            <ImageView
+                android:id="@+id/main_image2"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="fitCenter"/>

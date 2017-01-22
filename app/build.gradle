@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 24
     buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.cloudklosett.cloudvision"
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
     }
@@ -57,6 +57,7 @@ android {
     }
     */
 
+    sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jniLibs/'] } }
 }
 
 def getOpenCVDir() {
@@ -78,5 +79,5 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:1.20.0' exclude module: 'httpclient'
     compile 'com.google.http-client:google-http-client-gson:1.20.0' exclude module: 'httpclient'
     compile 'com.google.apis:google-api-services-vision:v1-rev2-1.21.0'
-    compile project(':openCVLibrary320')//320
+    compile project(':openCVLibrary320')
 }

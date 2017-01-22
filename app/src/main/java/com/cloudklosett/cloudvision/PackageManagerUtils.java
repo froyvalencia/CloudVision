@@ -10,6 +10,7 @@ import com.google.common.io.BaseEncoding;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+
 /**
  * Provides utility logic for getting the app's SHA1 signature. Used with restricted API keys.
  *
@@ -22,6 +23,8 @@ public class PackageManagerUtils {
      * @param packageName Identifies the APK whose signature should be extracted.
      * @return a lowercase, hex-encoded
      */
+
+
     public static String getSignature(@NonNull PackageManager pm, @NonNull String packageName) {
         try {
             PackageInfo packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
@@ -47,4 +50,5 @@ public class PackageManagerUtils {
             return null;
         }
     }
+
 }
