@@ -11,4 +11,7 @@
 
     <string name="image_picker_error">Something is wrong with that image. Pick a different one please.</string>
     <string name="title_activity_clothes_card">ClothesCard</string>
+    <string name="home">home</string>
+    <string name="open_drawer">open drawer</string>
+    <string name="close_drawer">close drawer</string>
 </resources>
